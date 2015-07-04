@@ -14,8 +14,8 @@ Base library has several critical py3 incompatibilities. I'll try to get rid of 
 
 Build status
 ------------
-Jrief data by now.
-[![Build Status](https://travis-ci.org/jrief/django-websocket-redis.png?branch=master)](https://travis-ci.org/jrief/django-websocket-redis)
+
+[![Build Status](https://travis-ci.org/0nkery/django-websocket-redis3.png?branch=master)](https://travis-ci.org/0nkery/django-websocket-redis3)
 [![Downloads](http://img.shields.io/pypi/dm/django-websocket-redis.svg?style=flat-square)](https://pypi.python.org/pypi/django-websocket-redis/)
 
 Questions
