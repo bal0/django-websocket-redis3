@@ -15,7 +15,6 @@ branches:
 install:
   - pip install -q Django==$DJANGO
   - pip install -r examples/chatserver/tests/requirements.txt
-#  - pip2 install wsgiref==0.1.2
   - python setup.py -q install
 
 services:
