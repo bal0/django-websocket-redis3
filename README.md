@@ -10,7 +10,7 @@ Online demo: http://websocket.aws.awesto.com/
 Why did I do that?
 ------------------
 
-Base library has several critical py3 incompatibilities.
+Base library has several critical py3 incompatibilities. I'll try to get rid of 'six' module too.
 
 Build status
 ------------
