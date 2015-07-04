@@ -13,7 +13,7 @@ CLASSIFIERS = [
     'Programming Language :: Python',
     'Topic :: Software Development :: Libraries :: Python Modules',
     'Development Status :: 4 - Beta',
-    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3.4',
 ]
 
 
@@ -23,13 +23,13 @@ def read(fname):
 
 
 setup(
-    name='django-websocket-redis',
+    name='django-websocket-redis3',
     version=__version__,
-    author='Jacob Rief',
-    author_email='jacob.rief@gmail.com',
+    author='Forked by Dmitry Shlagoff',
+    author_email='wessmoke@gmail.com',
     description=DESCRIPTION,
     long_description=read('README.md'),
-    url='https://github.com/jrief/django-websocket-redis',
+    url='https://github.com/0nkery/django-websocket-redis3',
     license='MIT',
     keywords=['django', 'websocket', 'redis'],
     platforms=['OS Independent'],
