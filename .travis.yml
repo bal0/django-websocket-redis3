@@ -14,7 +14,6 @@ branches:
 
 install:
   - pip install -q Django==$DJANGO
-  - cat examples/chatserver/tests/requirements.txt
   - pip install -r examples/chatserver/tests/requirements.txt
   - python setup.py -q install
 
