@@ -18,10 +18,7 @@ Build status
 ------------
 
 [![Build Status](https://travis-ci.org/0nkery/django-websocket-redis3.png?branch=master)](https://travis-ci.org/0nkery/django-websocket-redis3)
-
-Downloads for jrief package.
-
-[![Downloads](http://img.shields.io/pypi/dm/django-websocket-redis.svg?style=flat-square)](https://pypi.python.org/pypi/django-websocket-redis/)
+[![Downloads](http://img.shields.io/pypi/dm/django-websocket-redis3.svg?style=flat-square)](https://pypi.python.org/pypi/django-websocket-redis3/)
 
 Questions
 ---------
