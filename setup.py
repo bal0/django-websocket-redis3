@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 from ws4redis import __version__
 
-DESCRIPTION = 'Websocket support for Django using Redis as datastore'
+DESCRIPTION = 'Py3 compliant port of django-websocket-redis'
 
 CLASSIFIERS = [
     'Environment :: Web Environment',

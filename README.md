@@ -1,6 +1,8 @@
 django-websocket-redis3
 ======================
 
+Fork with better py3 compatibility.
+
 Main and great library home: https://github.com/jrief/django-websocket-redis
 
 Detailed documentation on [ReadTheDocs](http://django-websocket-redis.readthedocs.org/en/latest/).

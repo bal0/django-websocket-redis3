@@ -127,8 +127,7 @@ class WebSocket(object):
         except socket_error:
             payload = ''
         except BaseException as e:
-            # TODO log out this exception
-            logger.debug(str(e))
+            logger.debug("{}: {}".format(type(e), str(e)))
             payload = ''
         if len(payload) != header.length:
             raise WebSocketError('Unexpected EOF reading frame payload')
@@ -181,6 +180,7 @@ class WebSocket(object):
                 raise WebSocketError("Unexpected opcode={0!r}".format(f_opcode))
             if opcode == self.OPCODE_TEXT:
                 self.validate_utf8(payload)
+                payload = payload.decode()
             message += payload
             if header.fin:
                 break
@@ -304,7 +304,7 @@ class Header(object):
         mask = bytearray(self.mask)
         for i in range(self.length):
             payload[i] ^= mask[i % 4]
-        return str(payload)
+        return bytes(payload)
 
     # it's the same operation
     unmask_payload = mask_payload
@@ -372,7 +372,7 @@ class Header(object):
         """
         first_byte = opcode
         second_byte = 0
-        extra = ''
+        extra = b''
         if fin:
             first_byte |= cls.FIN_MASK
         if flags & cls.RSV0_MASK:
