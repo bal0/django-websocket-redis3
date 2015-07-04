@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.conf.urls import url, patterns, include
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns

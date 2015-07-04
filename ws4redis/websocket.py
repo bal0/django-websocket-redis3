@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 # This code was generously pilfered from https://bitbucket.org/Jeffrey/gevent-websocket
 # written by Jeffrey Gelens (http://noppo.pro/) and licensed under the Apache License, Version 2.0
-import six
+# import six
 import struct
 from socket import error as socket_error
 from django.core.handlers.wsgi import logger
@@ -23,6 +22,7 @@ class WebSocket(object):
         self._closed = False
         self.stream = Stream(wsgi_input)
         self.utf8validator = Utf8Validator()
+        self.utf8validate_last = None
 
     def __del__(self):
         try:
@@ -37,9 +37,9 @@ class WebSocket(object):
         If the conversion fails, the socket will be closed.
         """
         if not bytestring:
-            return u''
+            return ''
         try:
-            return bytestring.decode('utf-8')
+            return bytestring.decode()
         except UnicodeDecodeError:
             self.close(1007)
             raise
@@ -48,11 +48,11 @@ class WebSocket(object):
         """
         :returns: The utf-8 byte string equivalent of `text`.
         """
-        if isinstance(text, six.binary_type):
+        if isinstance(text, bytes):
             return text
-        if not isinstance(text, six.text_type):
-            text = six.text_type(text or '')
-        return text.encode('utf-8')
+        if not isinstance(text, str):
+            text = str(text or '')
+        return text.encode()
 
     def _is_valid_close_code(self, code):
         """
@@ -87,11 +87,11 @@ class WebSocket(object):
         :param payload: The bytestring payload associated with the close frame.
         """
         if not payload:
-            self.close(1000, None)
+            self.close(1000)
             return
         if len(payload) < 2:
             raise WebSocketError('Invalid close frame: {0} {1}'.format(header, payload))
-        code = struct.unpack('!H', str(payload[:2]))[0]
+        code = struct.unpack('!H', payload[:2])[0]
         payload = payload[2:]
         if payload:
             validator = Utf8Validator()
@@ -126,8 +126,9 @@ class WebSocket(object):
             payload = self.stream.read(header.length)
         except socket_error:
             payload = ''
-        except Exception:
+        except BaseException as e:
             # TODO log out this exception
+            logger.debug(str(e))
             payload = ''
         if len(payload) != header.length:
             raise WebSocketError('Unexpected EOF reading frame payload')
@@ -223,7 +224,7 @@ class WebSocket(object):
         if opcode == self.OPCODE_TEXT:
             message = self._encode_bytes(message)
         elif opcode == self.OPCODE_BINARY:
-            message = six.binary_type(message)
+            message = bytes(message)
         header = Header.encode_header(True, opcode, '', len(message), 0)
         try:
             self.stream.write(header + message)
@@ -235,7 +236,7 @@ class WebSocket(object):
         Send a frame over the websocket with message as its payload
         """
         if binary is None:
-            binary = not isinstance(message, six.string_types)
+            binary = not isinstance(message, str)
         opcode = self.OPCODE_BINARY if binary else self.OPCODE_TEXT
         try:
             self.send_frame(message, opcode)
@@ -272,12 +273,8 @@ class Stream(object):
     __slots__ = ('read', 'write', 'fileno')
 
     def __init__(self, wsgi_input):
-        if six.PY2:
-            self.read = wsgi_input._sock.recv
-            self.write = wsgi_input._sock.sendall
-        else:
-            self.read = wsgi_input.raw._sock.recv
-            self.write = wsgi_input.raw._sock.sendall
+        self.read = wsgi_input.raw._sock.recv
+        self.write = wsgi_input.raw._sock.sendall
         self.fileno = wsgi_input.fileno()
 
 
@@ -305,7 +302,7 @@ class Header(object):
     def mask_payload(self, payload):
         payload = bytearray(payload)
         mask = bytearray(self.mask)
-        for i in xrange(self.length):
+        for i in range(self.length):
             payload[i] ^= mask[i % 4]
         return str(payload)
 
@@ -398,4 +395,4 @@ class Header(object):
         if mask:
             second_byte |= cls.MASK_MASK
             extra += mask
-        return chr(first_byte) + chr(second_byte) + extra
+        return bytes([first_byte, second_byte]) + extra

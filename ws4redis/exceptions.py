@@ -1,4 +1,3 @@
-#-*- coding: utf-8 -*-
 from socket import error as socket_error
 from django.http import BadHeaderError
 

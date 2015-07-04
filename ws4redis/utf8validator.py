@@ -1,39 +1,39 @@
 ###############################################################################
 ##
-##  Copyright 2011-2013 Tavendo GmbH
+#  Copyright 2011-2013 Tavendo GmbH
 ##
-##  Note:
+#  Note:
 ##
-##  This code is a Python implementation of the algorithm
+#  This code is a Python implementation of the algorithm
 ##
-##            "Flexible and Economical UTF-8 Decoder"
+#            "Flexible and Economical UTF-8 Decoder"
 ##
-##  by Bjoern Hoehrmann
+#  by Bjoern Hoehrmann
 ##
-##       bjoern@hoehrmann.de
-##       http://bjoern.hoehrmann.de/utf-8/decoder/dfa/
+#       bjoern@hoehrmann.de
+#       http://bjoern.hoehrmann.de/utf-8/decoder/dfa/
 ##
-##  Licensed under the Apache License, Version 2.0 (the "License");
-##  you may not use this file except in compliance with the License.
-##  You may obtain a copy of the License at
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
 ##
-##      http://www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 ##
-##  Unless required by applicable law or agreed to in writing, software
-##  distributed under the License is distributed on an "AS IS" BASIS,
-##  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-##  See the License for the specific language governing permissions and
-##  limitations under the License.
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
 ##
 ###############################################################################
 
 
-## use Cython implementation of UTF8 validator if available
+# use Cython implementation of UTF8 validator if available
 ##
 try:
     from wsaccel.utf8validator import Utf8Validator
 except:
-    ## fallback to pure Python implementation
+    # fallback to pure Python implementation
 
     class Utf8Validator:
         """
@@ -44,7 +44,7 @@ except:
         Bjoern Hoehrmann (http://bjoern.hoehrmann.de/utf-8/decoder/dfa/).
         """
 
-        ## DFA transitions
+        # DFA transitions
         UTF8VALIDATOR_DFA = [
             0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,  # 00..1f
             0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,  # 20..3f
@@ -66,6 +66,9 @@ except:
         UTF8_REJECT = 1
 
         def __init__(self):
+            self.state = None
+            self.codepoint = None
+            self.i = None
             self.reset()
 
         def decode(self, b):
@@ -79,14 +82,14 @@ except:
 
             Returns some other positive integer when more octets need to be eaten.
             """
-            type = Utf8Validator.UTF8VALIDATOR_DFA[b]
+            _type = Utf8Validator.UTF8VALIDATOR_DFA[b]
 
             if self.state != Utf8Validator.UTF8_ACCEPT:
                 self.codepoint = (b & 0x3f) | (self.codepoint << 6)
             else:
-                self.codepoint = (0xff >> type) & b
+                self.codepoint = (0xff >> _type) & b
 
-            self.state = Utf8Validator.UTF8VALIDATOR_DFA[256 + self.state * 16 + type]
+            self.state = Utf8Validator.UTF8VALIDATOR_DFA[256 + self.state * 16 + _type]
 
             return self.state
 
@@ -114,8 +117,8 @@ except:
 
             l = len(ba)
 
-            for i in xrange(l):
-                ## optimized version of decode(), since we are not interested in actual code points
+            for i in range(l):
+                # optimized version of decode(), since we are not interested in actual code points
 
                 self.state = Utf8Validator.UTF8VALIDATOR_DFA[256 + (self.state << 4) + Utf8Validator.UTF8VALIDATOR_DFA[ord(ba[i])]]
 

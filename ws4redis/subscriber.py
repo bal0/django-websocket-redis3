@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.conf import settings
 from ws4redis.redis_store import RedisStore, SELF
 
@@ -12,7 +11,7 @@ class RedisSubscriber(RedisStore):
 
     def __init__(self, connection):
         self._subscription = None
-        super(RedisSubscriber, self).__init__(connection)
+        super().__init__(connection)
 
     def parse_response(self):
         """

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import sys
 from redis import StrictRedis
 import django

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import time
 import requests
@@ -26,7 +25,7 @@ class WebsocketTests(LiveServerTestCase):
     def setUp(self):
         self.facility = u'unittest'
         self.websocket_base_url = self.live_server_url.replace('http:', 'ws:', 1) + u'/ws/' + self.facility
-        self.message = RedisMessage(''.join(unichr(c) for c in range(33, 128)))
+        self.message = RedisMessage(''.join(chr(c) for c in range(33, 128)))
         self.factory = RequestFactory()
         # SessionStore
         # as used here: http://stackoverflow.com/a/7722483/1913888

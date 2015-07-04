@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.utils.safestring import mark_safe
 from ws4redis import settings
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.conf import settings
 
 WEBSOCKET_URL = getattr(settings, 'WEBSOCKET_URL', '/ws/')
