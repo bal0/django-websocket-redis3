@@ -2,7 +2,8 @@ import os
 from setuptools import setup, find_packages
 from ws4redis import __version__
 
-DESCRIPTION = 'Py3 compliant port of django-websocket-redis'
+DESCRIPTION = "Py3 compliant port of django-websocket-redis. \
+            Doesn't provide backwards compatibility with py2."
 
 CLASSIFIERS = [
     'Environment :: Web Environment',
