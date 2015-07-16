@@ -31,6 +31,7 @@ setup(
     description=DESCRIPTION,
     long_description=read('README.md'),
     url='https://github.com/0nkery/django-websocket-redis3',
+    download_url='https://github.com/0nkery/django-websocket-redis3/tarball/0.4.4.1',
     license='MIT',
     keywords=['django', 'websocket', 'redis'],
     platforms=['OS Independent'],
