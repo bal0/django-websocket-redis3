@@ -185,7 +185,7 @@ class WebSocket(object):
             if header.fin:
                 break
         if opcode == self.OPCODE_TEXT:
-            self.validate_utf8(message)
+            self.validate_utf8(message.encode())
             return message
         else:
             return bytearray(message)

@@ -66,10 +66,10 @@ class RedisMessage(bytes):
         if isinstance(value, str):
             if value != settings.WS4REDIS_HEARTBEAT:
                 value = value.encode()
-                return bytes.__new__(cls, value)
+                return super().__new__(cls, value)
         elif isinstance(value, list):
-            if len(value) >= 2 and value[0] == 'message':
-                return bytes.__new__(cls, value[2])
+            if len(value) >= 2 and value[0] == b'message':
+                return super().__new__(cls, value[2])
         return None
 
 
