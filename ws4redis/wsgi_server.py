@@ -101,7 +101,7 @@ class WebsocketWSGIServer(object):
                     websocket.flush()
                 for fd in ready:
                     if fd == websocket_fd:
-                        recvmsg = RedisMessage(websocket.receive())
+                        recvmsg = RedisMessage(websocket.receive().decode('utf-8'))
                         if recvmsg:
                             subscriber.publish_message(recvmsg)
                     elif fd == redis_fd:
